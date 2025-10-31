@@ -30,8 +30,8 @@ const Signup: FC<Props> = () => {
 
     }catch(err){
       console.log("Signup error",err)
-      const responseData = err.response?.data;
       if (err instanceof AxiosError){
+        const responseData = err.response?.data;
         if (responseData.errors){
           setErrors(responseData.errors);
         }
