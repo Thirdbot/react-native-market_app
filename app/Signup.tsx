@@ -1,6 +1,7 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
+import client from './api/client';
 import ErrorMessage from './components/ErrorMessage';
 import FormContainer from './components/FormContainer';
 import FormInput from './components/FormInput';
@@ -19,14 +20,13 @@ const Signup: FC<Props> = () => {
   const [error,setError] = useState<string>('');
 
   const navigation = useNavigation<NavigationProp<NavigationPages>>();
-  const url = 'http://10.0.22.186:5555'
 
   const onSubmit = async () => {
     setError('');
     setErrors({});
     try{
       console.log("Button Sign Up Pressed",signupInfo)
-      await axios.post(`${url}/auth/sign-up`, signupInfo) 
+      await client.post(`/auth/sign-up`, signupInfo)
 
     }catch(err){
       console.log("Signup error",err)
