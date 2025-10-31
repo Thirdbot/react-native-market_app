@@ -1,12 +1,11 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
-import client from './api/client';
-import ErrorMessage from './components/ErrorMessage';
-import FormContainer from './components/FormContainer';
-import FormInput from './components/FormInput';
-import { NavigationPages } from './index';
-
+import client from '../api/client';
+import { AuthRoute } from '../components/AuthRoute';
+import ErrorMessage from '../components/ErrorMessage';
+import FormContainer from '../components/FormContainer';
+import FormInput from '../components/FormInput';
 interface Props {}
 
 const Signup: FC<Props> = () => {
@@ -19,7 +18,7 @@ const Signup: FC<Props> = () => {
   const [errors,setErrors] = useState<{[key:string]:string[]}>({});
   const [error,setError] = useState<string>('');
 
-  const navigation = useNavigation<NavigationProp<NavigationPages>>();
+  const navigation = useNavigation<NavigationProp<AuthRoute>>();
 
   const onSubmit = async () => {
     setError('');

@@ -1,10 +1,11 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { AxiosError } from 'axios';
 import { FC, useState } from 'react';
-import client from './api/client';
-import FormContainer from './components/FormContainer';
-import FormInput from './components/FormInput';
-import { NavigationPages } from './index';
+import client from '../api/client';
+import { AuthRoute } from '../components/AuthRoute';
+import ErrorMessage from '../components/ErrorMessage';
+import FormContainer from '../components/FormContainer';
+import FormInput from '../components/FormInput';
 
 interface Props {}
 
@@ -17,8 +18,8 @@ const Signin: FC<Props> = () => {
   const [error,setError] = useState<string>('');
 
 
-  const navigation = useNavigation<NavigationProp<NavigationPages>>();
-  
+  const navigation = useNavigation<NavigationProp<AuthRoute>>();
+
  const onSubmit = async () => {
     setError('');
     setErrors({});
@@ -26,6 +27,7 @@ const Signin: FC<Props> = () => {
       console.log("Button Sign In Pressed",signinInfo)
       const {data} = await client.post(`/auth/sign-in`, signinInfo )
       console.log("api response",data)
+      navigation.navigate("Home",{profile:data.profile})
 
     }catch(err){
       console.log("Signin error",err)
@@ -51,6 +53,7 @@ const Signin: FC<Props> = () => {
     navLinkTitle=" Don't have an account? Sign up "
     onSubmit={onSubmit}
     onLinkPress={onLinkPress}>
+    {error ? <ErrorMessage message={error} /> : null}
     <FormInput label="Email" 
               placeholder="Enter your email" 
               onChangeText={(email)=> setSigninInfo({...signinInfo,email})}
